@@ -1,3 +1,5 @@
+# .venv/bin/python3.10
+
 # keras imports for the dataset and building our neural network
 from keras.datasets import mnist
 from keras.models import Model, Sequential
