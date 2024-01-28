@@ -183,7 +183,7 @@ print("Shape before one-hot encoding: ", y_train.shape)
 Y_train = to_categorical(y_train, n_classes)
 Y_test = to_categorical(y_test, n_classes)
 print("Shape after one-hot encoding: ", Y_train.shape)
-n_cnn1planes = 15
+n_cnn1planes = 20
 n_cnn1kernel = 3
 n_poolsize = 1
 
@@ -196,7 +196,7 @@ n_strides = 1
 n_dense = 100
 dropout = 0.3
 
-n_epochs=20
+n_epochs=5
 
 model_name = 'CNN_Handwritten_OCR_CNN'+str(n_cnn1planes)+'_KERNEL'+str(n_cnn1kernel)+'_Epochs' + str(n_epochs)
 #figure_format='svg'
@@ -236,7 +236,9 @@ model_name += '_Optimzer_' + 'SGD'
 
 # vary the constant learning rate
 model_name += '_LearningRate_' + 'Constant'
-learning_rate = 0.001
+#learning_rate = 0.001
+
+learning_rate = ExponentialDecay(initial_learning_rate=0.01, decay_steps=n_epochs, decay_rate=0.9)
 
 optimizer=SGD(learning_rate = learning_rate)
 
