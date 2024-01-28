@@ -183,7 +183,7 @@ print("Shape before one-hot encoding: ", y_train.shape)
 Y_train = to_categorical(y_train, n_classes)
 Y_test = to_categorical(y_test, n_classes)
 print("Shape after one-hot encoding: ", Y_train.shape)
-n_cnn1planes = 20
+n_cnn1planes = 50
 n_cnn1kernel = 3
 n_poolsize = 1
 
@@ -212,7 +212,7 @@ model = Sequential()
 # convolutional layer
 cnn1 = Conv2D(n_cnn1planes, kernel_size=(n_cnn1kernel,n_cnn1kernel), strides=(n_strides,n_strides), padding='valid', activation='relu', input_shape=(28,28,1))
 model.add(cnn1)
-model.add(Dropout(dropout))
+#model.add(Dropout(dropout))
 model.add(MaxPool2D(pool_size=(n_poolsize,n_poolsize)))
 
 cnn2 = Conv2D(n_cnn1planes*2, kernel_size=(n_cnn1kernel,n_cnn1kernel), strides=(n_strides,n_strides), padding='valid', activation='relu')
@@ -238,12 +238,13 @@ model_name += '_Optimzer_' + 'SGD'
 # vary the constant learning rate
 model_name += '_LearningRate_' + 'Constant'
 
-#learning_rate = 0.001
+learning_rate = 0.001
 
-learning_rate = ExponentialDecay(initial_learning_rate=0.01, decay_steps=n_epochs, decay_rate=0.9)
+#learning_rate = ExponentialDecay(initial_learning_rate=0.01, decay_steps=n_epochs, decay_rate=0.9)
 momentum_value = 0.9
 
-optimizer=SGD(learning_rate = learning_rate, momentum = momentum_value)
+optimizer=SGD(learning_rate = learning_rate)
+#optimizer=SGD(learning_rate = learning_rate, momentum = momentum_value)
 
 model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=optimizer)
 
