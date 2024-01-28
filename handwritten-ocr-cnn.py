@@ -194,9 +194,9 @@ n_poolsize = 1
 # Stride is a critical parameter for controlling the spatial resolution of the feature maps and influencing the receptive field of the network.
 n_strides = 1
 n_dense = 100
-dropout = 0.3
+dropout = 0.2
 
-n_epochs=5
+n_epochs=10
 
 model_name = 'CNN_Handwritten_OCR_CNN'+str(n_cnn1planes)+'_KERNEL'+str(n_cnn1kernel)+'_Epochs' + str(n_epochs)
 #figure_format='svg'
@@ -212,6 +212,7 @@ model = Sequential()
 # convolutional layer
 cnn1 = Conv2D(n_cnn1planes, kernel_size=(n_cnn1kernel,n_cnn1kernel), strides=(n_strides,n_strides), padding='valid', activation='relu', input_shape=(28,28,1))
 model.add(cnn1)
+model.add(Dropout(dropout))
 model.add(MaxPool2D(pool_size=(n_poolsize,n_poolsize)))
 
 cnn2 = Conv2D(n_cnn1planes*2, kernel_size=(n_cnn1kernel,n_cnn1kernel), strides=(n_strides,n_strides), padding='valid', activation='relu')
@@ -236,11 +237,12 @@ model_name += '_Optimzer_' + 'SGD'
 
 # vary the constant learning rate
 model_name += '_LearningRate_' + 'Constant'
-#learning_rate = 0.001
+learning_rate = 0.001
 
-learning_rate = ExponentialDecay(initial_learning_rate=0.01, decay_steps=n_epochs, decay_rate=0.9)
+#learning_rate = ExponentialDecay(initial_learning_rate=0.01, decay_steps=n_epochs, decay_rate=0.9)
+momentum_value = 0.9
 
-optimizer=SGD(learning_rate = learning_rate)
+optimizer=SGD(learning_rate = learning_rate, momentum = momentum_value)
 
 model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=optimizer)
 
