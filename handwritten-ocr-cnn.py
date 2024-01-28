@@ -6,7 +6,9 @@ from keras.models import Model, Sequential
 from keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Flatten, BatchNormalization
 from keras.optimizers.schedules import ExponentialDecay
 from keras import callbacks
+
 from tensorflow.keras.optimizers import SGD, Adam
+
 #from keras.utils import np_utils
 from keras.utils import to_categorical
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -42,6 +44,7 @@ def display_confusion_matrix(confusion_matrix, labels, figure_path,figure_name,f
 def display_activations(input, label, activations, layer_names, figure_path, figure_name, figure_format, onscreen=True):
     fig = plt.figure(layout='constrained', figsize=(10, 8))
     subfigs = fig.subfigures(1, len(activations)+1) # layers + input , figsize=(row_size*2.5,len(model.layers)*1.5))
+
 
     subfigs[0].subplots(1, 1)
     subfigs[0].suptitle('Label: {}'.format(label))
@@ -213,6 +216,10 @@ model.add(MaxPool2D(pool_size=(n_poolsize,n_poolsize)))
 
 cnn2 = Conv2D(n_cnn1planes*2, kernel_size=(n_cnn1kernel,n_cnn1kernel), strides=(n_strides,n_strides), padding='valid', activation='relu')
 model.add(cnn2)
+model.add(MaxPool2D(pool_size=(n_poolsize,n_poolsize)))
+
+cnn3 = Conv2D(n_cnn1planes*4, kernel_size=(n_cnn1kernel,n_cnn1kernel), strides=(n_strides,n_strides), padding='valid', activation='relu')
+model.add(cnn3)
 model.add(MaxPool2D(pool_size=(n_poolsize,n_poolsize)))
 
 # flatten output of convolutions
